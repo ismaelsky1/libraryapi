@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @SpringBootTest
@@ -120,4 +121,31 @@ public class AutorRepositoryTest {
 
 
     }
+
+    @Test
+    void listaLivrosAutor(){
+        Autor autor = new Autor();
+        autor.setNome("J.K. Rowling");
+        autor.setDataNascimento(LocalDate.of(1965, 7, 31));
+        autor.setNacionalidade("Britânica");
+        Livro livro1 = new Livro();
+        livro1.setIsbn("978-3-16-148410-0");
+        livro1.setTitulo("Harry Potter e a Pedra Filosofal");
+        livro1.setDataPublicacao(LocalDate.of(1997, 6, 26));
+        livro1.setPreco(new java.math.BigDecimal("39.90"));
+        livro1.setAutor(autor);
+        livro1.setGenero(GeneroLivro.FANTASIA);
+        autor.setLivros(new ArrayList<>());
+        autor.getLivros().add(livro1);
+
+        autorRepository.save(autor);
+
+        List<Livro> livrosLista = livroRepository.findByAutor(autor);
+        autor.setLivros(livrosLista);
+
+
+        autor.getLivros().forEach(System.out::println);
+
+    }
+
 }
