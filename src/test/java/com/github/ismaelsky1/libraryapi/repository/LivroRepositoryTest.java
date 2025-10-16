@@ -115,5 +115,66 @@ class LivroRepositoryTest {
         assert autorExistente.getNome().equals(atualizado.get().getAutor().getNome());
     }
 
+    @Test
+    void pesquisaPorTituloTest() {
+        Autor autor = criarAutor();
+        Livro livro = criarLivro(autor);
+        repository.save(livro);
 
+        var livrosEncontrados = repository.findByTitulo("Livro Teste");
+        assert !livrosEncontrados.isEmpty();
+        livrosEncontrados.forEach(System.out::println);
+    }
+
+    @Test
+    void listarLivrosComQueryJPQLTest() {
+        Autor autor = criarAutor();
+        Livro livro = criarLivro(autor);
+        repository.save(livro);
+
+        var livrosEncontrados = repository.listTodos();
+        assert !livrosEncontrados.isEmpty();
+        livrosEncontrados.forEach(System.out::println);
+    }
+
+    @Test
+    void listAutoresDosLivrosTest() {
+        Autor autor = criarAutor();
+        Livro livro = criarLivro(autor);
+        repository.save(livro);
+
+        var listAutoresDosLivrosTest = repository.listAutoresDosLivros();
+        assert !listAutoresDosLivrosTest.isEmpty();
+        listAutoresDosLivrosTest.forEach(System.out::println);
+    }
+
+    @Test
+    void listaGenerosAutoresBrasileiros() {
+        Autor autor = criarAutor();
+        Livro livro = criarLivro(autor);
+        repository.save(livro);
+
+        var resultado = repository.listGenerosAutoresBrasileiros();
+        resultado.forEach(System.out::println);
+    }
+
+    @Test
+    void listaPorgeneroQueryParamTest() {
+        Autor autor = criarAutor();
+        Livro livro = criarLivro(autor);
+        repository.save(livro);
+
+        var resultado = repository.findByGenero(GeneroLivro.FANTASIA, "preco");
+        resultado.forEach(System.out::println);
+    }
+
+    @Test
+    void deleteByGeneroTest() {
+        Autor autor = criarAutor();
+        Livro livro = criarLivro(autor);
+        repository.save(livro);
+
+        repository.deleteByGenero(GeneroLivro.FICCAO);
+    }
 }
+
